@@ -272,40 +272,50 @@ const Index = () => {
           </Suspense>
         </div>
 
-        {/* Status Summary - Adjusted for mobile */}
+        {/* Status Summary - Mobile Optimized */}
         <Card className="glass-card p-4">
           <div className="flex flex-col gap-4">
-            <div className="flex flex-wrap items-center gap-3">
-              <div className="flex items-center gap-2">
-                <Wifi className="h-4 w-4 text-success" />
-                <span className="text-sm font-medium">{onlineDevices} Online</span>
+            {/* Status Row - Better mobile layout */}
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2">
+                  <Wifi className="h-4 w-4 text-success" />
+                  <span className="text-sm font-medium">{onlineDevices} Online</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <WifiOff className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm font-medium">{devices.length - onlineDevices} Offline</span>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <WifiOff className="h-4 w-4 text-muted-foreground" />
-                <span className="text-sm font-medium">{devices.length - onlineDevices} Offline</span>
+              <div className="sm:ml-auto">
+                <SubscriptionStatusBadge />
               </div>
-              <SubscriptionStatusBadge />
             </div>
-            <div className="flex flex-wrap gap-2">
-              <Button variant="outline" size="sm" asChild className="flex-1 min-w-[120px]">
+            {/* Buttons - Mobile responsive grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              <Button variant="outline" size="sm" asChild className="w-full">
                 <Link to="/subscription">
                   <CreditCard className="h-3 w-3 mr-1" />
-                  {isPremium ? 'Manage' : 'Upgrade'}
+                  <span className="hidden xs:inline">{isPremium ? 'Manage' : 'Upgrade'}</span>
+                  <span className="xs:hidden">{isPremium ? 'Plan' : 'Pro'}</span>
                 </Link>
               </Button>
-              <Button variant="outline" size="sm" asChild className="flex-1 min-w-[100px]">
+              <Button variant="outline" size="sm" asChild className="w-full">
                 <Link to="/billing">
                   <User className="h-3 w-3 mr-1" />
                   Billing
                 </Link>
               </Button>
-              <Suspense fallback={<Button variant="outline" size="sm" disabled>Add Device</Button>}>
-                <AddDeviceDialog />
-              </Suspense>
+              <div className="w-full">
+                <Suspense fallback={<Button variant="outline" size="sm" disabled className="w-full">Add Device</Button>}>
+                  <AddDeviceDialog />
+                </Suspense>
+              </div>
               <Dialog>
                 <DialogTrigger asChild>
-                  <Button variant="outline" size="sm" aria-label="Settings" className="px-3">
-                    <Settings className="h-4 w-4" />
+                  <Button variant="outline" size="sm" aria-label="Settings" className="w-full">
+                    <Settings className="h-4 w-4 mr-1" />
+                    <span className="hidden xs:inline">Settings</span>
                   </Button>
                 </DialogTrigger>
                 <DialogContent className="w-[90vw] max-w-md mx-auto rounded-lg">
