@@ -2,11 +2,11 @@ import { useState, useEffect, useMemo, useCallback, Suspense, lazy } from "react
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { 
-  Thermometer, 
-  Droplets, 
-  Gauge, 
-  Cloud, 
+import {
+  Thermometer,
+  Droplets,
+  Gauge,
+  Cloud,
   Settings,
   BarChart3,
   Grid3X3,
@@ -50,11 +50,11 @@ const Index = () => {
   const { signOut } = useAuth();
   const { isPremium, isFree } = useSubscriptionStatus();
   const checkSubscription = useCheckSubscription();
-  
+
   // Initialize state safely for SSR/SSG
   const [liveMonitoring, setLiveMonitoring] = useState(true);
   const [alertsEnabled, setAlertsEnabled] = useState(true);
-  
+
   // Initialize state after component mounts (client-side only)
   useEffect(() => {
     setLiveMonitoring(JSON.parse(localStorage.getItem("settings.liveMonitoring") ?? "true"));
@@ -114,7 +114,7 @@ const Index = () => {
     if (isFree) {
       // Show immediately on first load
       setShowUpgradePrompt(true);
-      
+
       // Show every 5 minutes for free users
       const interval = setInterval(() => {
         setShowUpgradePrompt(true);
@@ -163,7 +163,7 @@ const Index = () => {
         } catch (error) {
           console.error('Payment verification error:', error);
           toast({
-            title: "Payment Verification Failed", 
+            title: "Payment Verification Failed",
             description: "Please contact support if your payment was processed.",
             variant: "destructive"
           });
@@ -183,7 +183,7 @@ const Index = () => {
       const interval = setInterval(() => {
         checkSubscription.mutate();
       }, 30000);
-      
+
       return () => clearInterval(interval);
     }
   }, [isPremium]);
@@ -210,20 +210,20 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       <Header />
-      
+
       <main className="container mx-auto px-3 py-4 space-y-4">
-        
+
         {/* Upgrade Prompt for Free Users */}
         {isFree && showUpgradePrompt && (
           <div className="animate-slide-up">
-            <UpgradePrompt 
-              title="🚀 Unlock Premium Environmental Data" 
+            <UpgradePrompt
+              title="🚀 Unlock Premium Environmental Data"
               description="Access CO₂ monitoring, advanced metrics, light sensors, and soil monitoring"
               onDismiss={dismissUpgradePrompt}
             />
           </div>
         )}
-        
+
         {/* Overview Cards - Adjusted for mobile */}
         <div className="grid grid-cols-2 gap-3">
           <Suspense fallback={<div className="bg-muted rounded-lg h-24 animate-pulse"></div>}>
@@ -386,29 +386,29 @@ const Index = () => {
           <div className="space-y-4">
             {/* Inline upgrade prompt in data section for free users */}
             {isFree && (
-              <UpgradePrompt 
-                title="Premium Sensors & Metrics" 
+              <UpgradePrompt
+                title="Premium Sensors & Metrics"
                 description="Unlock CO₂, light sensors, soil monitoring, and advanced calculated metrics"
                 compact={true}
-                onDismiss={() => {}}
+                onDismiss={() => { }}
               />
             )}
-            
+
             <div className="grid grid-cols-1 gap-4">
               {devices.length > 0 ? (
                 devices.map((device) => (
                   <Suspense key={device.id} fallback={<div className="bg-muted rounded-lg h-40 animate-pulse"></div>}>
-                    <DeviceCard device={device} onDeviceUpdated={() => {}} />
+                    <DeviceCard device={device} onDeviceUpdated={() => { }} />
                   </Suspense>
                 ))
               ) : (
-              <div className="col-span-full text-center py-8">
-                <p className="text-muted-foreground mb-4">No devices found. Add your first device to get started!</p>
-                <Suspense fallback={<Button variant="default" disabled>Add Device</Button>}>
-                  <AddDeviceDialog />
-                </Suspense>
-              </div>
-            )}
+                <div className="col-span-full text-center py-8">
+                  <p className="text-muted-foreground mb-4">No devices found. Add your first device to get started!</p>
+                  <Suspense fallback={<Button variant="default" disabled>Add Device</Button>}>
+                    <AddDeviceDialog />
+                  </Suspense>
+                </div>
+              )}
             </div>
           </div>
         ) : (
