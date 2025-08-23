@@ -18,6 +18,7 @@ export type Database = {
         Row: {
           created_at: string | null
           device_id: string
+          device_type: string
           id: string
           name: string
           owner_id: string
@@ -26,6 +27,7 @@ export type Database = {
         Insert: {
           created_at?: string | null
           device_id: string
+          device_type?: string
           id?: string
           name: string
           owner_id: string
@@ -34,6 +36,7 @@ export type Database = {
         Update: {
           created_at?: string | null
           device_id?: string
+          device_type?: string
           id?: string
           name?: string
           owner_id?: string
@@ -146,6 +149,7 @@ export type Database = {
           soil_moisture_percentage: number | null
           temperature: number | null
           timestamp: string
+          uv_index: number | null
           vpd: number | null
           weather_trend: string | null
           wet_bulb_temp: number | null
@@ -175,6 +179,7 @@ export type Database = {
           soil_moisture_percentage?: number | null
           temperature?: number | null
           timestamp?: string
+          uv_index?: number | null
           vpd?: number | null
           weather_trend?: string | null
           wet_bulb_temp?: number | null
@@ -204,6 +209,7 @@ export type Database = {
           soil_moisture_percentage?: number | null
           temperature?: number | null
           timestamp?: string
+          uv_index?: number | null
           vpd?: number | null
           weather_trend?: string | null
           wet_bulb_temp?: number | null
